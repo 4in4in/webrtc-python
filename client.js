@@ -1,6 +1,8 @@
 // peer connection
 var pc = null;
 
+var localStream;
+
 function createPeerConnection() {
     var config = {
         sdpSemantics: 'unified-plan'
@@ -71,6 +73,7 @@ function start() {
         });
         var video = document.getElementById('video');
         video.srcObject = stream;
+        localStream = stream;
         video.muted = true;
         return negotiate();
     }, function(err) {
@@ -84,7 +87,11 @@ function stop() {
     document.getElementById('stop').style.display = 'none';
     document.getElementById('start').style.display = 'inline-block';
 
+    localStream.getTracks().forEach(function(track) {
+        track.stop();
+    });
     var video = document.querySelector('video');
+    video.pause();
     video.srcObject = null;
 
     // close transceivers

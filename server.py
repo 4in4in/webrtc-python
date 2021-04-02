@@ -87,6 +87,7 @@ class MainApplication:
             @track.on("ended")
             async def on_ended():
                 log_info("Track %s ended", track.kind)
+                track.stop()
                 await recorder.stop()
 
         # handle offer
