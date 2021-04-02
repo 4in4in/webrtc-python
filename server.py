@@ -10,6 +10,7 @@ import json
 import logging
 import os
 import uuid
+import ssl
 
 import cv2
 
@@ -114,7 +115,11 @@ class MainApplication:
 if __name__ == "__main__": 
     PORT = 9084
     HOST = '0.0.0.0'
-    ssl_context = None
+    # ssl_context = None
+
+    ssl_context = ssl.SSLContext()
+    ssl_context.load_cert_chain('example.crt', 'example.key')
+
     logging.info('start')
     app = web.Application()
 
